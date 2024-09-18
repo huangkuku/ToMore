@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load bootstrap_icons %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,19 +11,53 @@
         {% endblock %}
     </title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="{% static 'js/main.js' %}" defer></script>
 </head>
 <body>
     <nav>
         <a href="/">
-           <span role="img" aria-label="Home">Home🏠</span>
-        </a> |
+           <span role="img" aria-label="Home">
+                {% bs_icon 'house' size='2rem' color="darkgreen" %}
+            </span>
+        </a>
         <a href="/about">
-            <span role="img" aria-label="About">About😊</span>
-        </a> |
+            <span role="img" aria-label="About">
+                {% bs_icon 'info-square' size='2rem' color="darkgreen" %}
+            </span>
+        </a>
         <a href="{% url 'posts:list' %}">
-            <span role="img" aria-label="Your Posts">Posts📰</span>
-        </a> |
+            <span role="img" aria-label="Your Posts">
+                {% bs_icon 'list-task' size='2rem' color="darkgreen" %}
+            </span>
+        </a>
+<!--如果有登入-->
+        {% if user.is_authenticated %}
+            <a href="{% url 'posts:new-post' %}">
+                <span role="img" aria-label="New Post">
+                    {% bs_icon 'newspaper' size='2rem' color="darkgreen" %}
+                </span>
+            </a> 
+            <form class="logout" action="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}
+                <button class="logout-button" aria-label="User Logout" 
+                title="User Logout">
+                {% bs_icon 'box-arrow-left' size='2rem' color="darkgreen" %}
+                </button>
+            </form>
+        {% else %}
+            <a href="{% url 'users:register' %}">
+                <span role="img" aria-label="Register">
+                    {% bs_icon 'person-plus' size='2rem' color="darkgreen" %}
+                </span>
+            </a> 
+            <a href="{% url 'users:login' %}">
+                <span role="img" aria-label="Login">
+                    {% bs_icon 'box-arrow-in-right' size='2rem' color="darkgreen" %}
+                </span>
+            </a> 
+        {% endif %}
+        
     </nav>
     <main>
         {% block content %}
